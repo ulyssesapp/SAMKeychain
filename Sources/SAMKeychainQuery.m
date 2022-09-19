@@ -68,36 +68,14 @@
 
 
 - (BOOL)deleteItem:(NSError *__autoreleasing *)error {
-	OSStatus status = SAMKeychainErrorBadArguments;
 	if (!self.service || !self.account) {
 		if (error) {
-			*error = [[self class] errorWithCode:status];
+			*error = [[self class] errorWithCode:SAMKeychainErrorBadArguments];
 		}
 		return NO;
 	}
 
-	NSMutableDictionary *query = [self query];
-#if TARGET_OS_IPHONE
-	status = SecItemDelete((__bridge CFDictionaryRef)query);
-#else
-	// On Mac OS, SecItemDelete will not delete a key created in a different
-	// app, nor in a different version of the same app.
-	//
-	// To replicate the issue, save a password, change to the code and
-	// rebuild the app, and then attempt to delete that password.
-	//
-	// This was true in OS X 10.6 and probably later versions as well.
-	//
-	// Work around it by using SecItemCopyMatching and SecKeychainItemDelete.
-	CFTypeRef result = NULL;
-	[query setObject:@YES forKey:(__bridge id)kSecReturnRef];
-	status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
-	if (status == errSecSuccess) {
-		status = SecKeychainItemDelete((SecKeychainItemRef)result);
-		CFRelease(result);
-	}
-#endif
-
+	OSStatus status = SecItemDelete((__bridge CFDictionaryRef)[self query]);
 	if (status != errSecSuccess && error != NULL) {
 		*error = [[self class] errorWithCode:status];
 	}
