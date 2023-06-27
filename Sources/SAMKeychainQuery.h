@@ -6,13 +6,8 @@
 //  Copyright (c) 2013-2014 Sam Soffes. All rights reserved.
 //
 
-#if __has_feature(modules)
-	@import Foundation;
-	@import Security;
-#else
-	#import <Foundation/Foundation.h>
-	#import <Security/Security.h>
-#endif
+#import <Foundation/Foundation.h>
+#import <Security/Security.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
