@@ -278,7 +278,7 @@
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SAM;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2700;
 				ORGANIZATIONNAME = "Sam Soffes";
 				TargetAttributes = {
 					21632D971C925A3C00C40D7D = {
